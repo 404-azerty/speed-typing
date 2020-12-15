@@ -4,12 +4,55 @@
   margin: 0;
 }
 body {
-  background: linear-gradient(to right, #333333, rgb(78,77,77));
+  background: center / cover no-repeat url('Mataura.svg');
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  color: whitesmoke;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  font-size: calc(8px + 1vmin);
+  text-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
+section {
+  margin-top: 1em;
+  padding: 1em;
+  backdrop-filter: blur(.75em);
+  -webkit-backdrop-filter: blur(.75em);
+  border-radius: .25em;
+  box-shadow: 0 2px 4px (rgba(0, 0, 0, .18));
+  background-color: rgba(255, 255, 255, 0.7);
+  min-width: 25em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  margin-bottom: 2em;
+  text-align: center;
+  color: whitesmoke;
+}
+h2 + h2, textarea, .sentenceToWrite{
+  margin-top: 1em;
+}
+textarea {
+  max-width: 100%;
+  min-width: 12em;
+  background-color: transparent;
+  font-size: calc(16px + 1vmin);
+  border: 1px solid #333;
+  resize: none;
+  min-height: 10em;
+  outline: none;
+  padding: .5em;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.good {
+  color: green;
+}
+.bad {
+  color: red;
+  text-decoration: underline;
+}
+
