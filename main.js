@@ -6,6 +6,7 @@ const score = document.querySelector(`#score`);
 const sentenceToWrite = document.querySelector(`#sentenceToWrite`);
 const sentenceToTest = document.querySelector(`textarea`);
 let timer;
+
 // show time
 let timeCurrent = 60;
 time.innerText = `Temps restant : ${timeCurrent}s`;
@@ -16,13 +17,8 @@ function changeTime() {
   timeCurrent--;
   time.innerText = `Temps restant : ${timeCurrent}s`;
 
-  //update score
-  // score.innerText = `Score : ${point}`;
-
   // end game
-  if (timeCurrent === 0) {
-    clearInterval(timer);
-  }
+  if (timeCurrent === 0) clearInterval(timer);
 }
 
 // show score
@@ -34,8 +30,9 @@ async function getSentence() {
   const call = await fetch(api);
   const result = await call.json();
   const sentence = result.content;
-  timer = setInterval(changeTime, 1000);
   showSentence(sentence);
+  // start chrono
+  if (timeCurrent === 60) timer = setInterval(changeTime, 1000);
 }
 getSentence();
 
@@ -52,3 +49,42 @@ function showSentence(sentence) {
     sentenceToWrite.appendChild(letterSpan);
   });
 }
+
+// listen type
+sentenceToTest.addEventListener(`input`, () => {
+  // create arrays for compare
+  const lettersToWrite = sentenceToWrite.querySelectorAll(`span`);
+  const sentenceCurrent = sentenceToTest.value.split(``);
+  let goodAnswer = true;
+
+  // manage good/bad response
+  lettersToWrite.forEach((letterToWrite, index) => {
+    // init response
+    let letterToTest = sentenceCurrent[index];
+
+    // manage not response
+    if (!letterToTest) {
+      letterToWrite.classList.remove(`good`);
+      letterToWrite.classList.remove(`bad`);
+      goodAnswer = false;
+    }
+    // manage good response
+    else if (letterToTest === letterToWrite.innerText) {
+      letterToWrite.classList.add(`good`);
+      letterToWrite.classList.remove(`bad`);
+    }
+    // manage bad response
+    else {
+      letterToWrite.classList.add(`bad`);
+      letterToWrite.classList.remove(`good`);
+      goodAnswer = false;
+    }
+  });
+
+  // check if sentence is finished
+  if (goodAnswer) {
+    getSentence();
+    point += lettersToWrite.length;
+    score.innerText = `Score : ${point}`;
+  }
+});
